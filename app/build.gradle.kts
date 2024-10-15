@@ -75,6 +75,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.activity.ktx)
 
+    // Hilt DI
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    // Room
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
 }

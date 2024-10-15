@@ -10,6 +10,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.bangkit.dicodingevent.BuildConfig
+import org.bangkit.dicodingevent.data.retrofit.EventApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -45,8 +46,14 @@ class AppModule {
     fun provideRetrofit(gson: Gson, client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl("")
+            .baseUrl(BuildConfig.BASE_URL)
             .client(client)
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideEventApi(retrofit: Retrofit): EventApi {
+        return retrofit.create(EventApi::class.java)
     }
 }
