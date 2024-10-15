@@ -9,7 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.bangkit.dicodingevent.databinding.ActivityMainBinding
 import org.bangkit.dicodingevent.viewmodel.MainViewModel
 
-@AndroidEntryPoint
+//@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
