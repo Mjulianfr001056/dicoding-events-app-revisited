@@ -9,6 +9,6 @@ import androidx.room.RoomDatabase
 )
 abstract class DicodingEventDatabase : RoomDatabase() {
 
-    abstract fun dicodingEventDao(): DicodingEventDao
+    abstract val dicodingEventDao: DicodingEventDao
 
 }

@@ -7,27 +7,29 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import org.bangkit.dicodingevent.databinding.ActivityMainBinding
-import org.bangkit.dicodingevent.viewmodel.MainViewModel
+import javax.inject.Inject
 
-//@AndroidEntryPoint
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: MainViewModel by viewModels()
+
+    @Inject
+    lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.hide()
-
-        val layoutManager = LinearLayoutManager(this)
-        binding.rvEvent.layoutManager = layoutManager
-
-        viewModel.isLoading.observe(this) {isLoading ->
-            showLoading(isLoading)
-        }
+//        supportActionBar?.hide()
+//
+//        val layoutManager = LinearLayoutManager(this)
+//        binding.rvEvent.layoutManager = layoutManager
+//
+//        viewModel.isLoading.observe(this) {isLoading ->
+//            showLoading(isLoading)
+//        }
     }
 
     private fun showLoading(isLoading: Boolean) {
