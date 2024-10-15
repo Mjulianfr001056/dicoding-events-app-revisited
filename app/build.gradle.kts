@@ -1,8 +1,17 @@
+import com.android.build.api.variant.BuildConfigField
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("kotlin-parcelize")
     id("com.google.devtools.ksp")
+}
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
 }
 
 android {
@@ -15,6 +24,9 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        val baseUrl = localProperties.getProperty("BASE_URL") ?: "https://default.url.com"
+        buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -37,6 +49,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 

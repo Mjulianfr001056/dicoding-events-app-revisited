@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class NetworkModule {
     companion object {
-        private const val BASE_URL = "https://event-api.dicoding.dev/"
+        private const val BASE_URL = ""
 
         fun getApiService() : ApiService {
             val loggingInterceptor =
