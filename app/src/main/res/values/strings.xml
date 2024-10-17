@@ -34,4 +34,5 @@
     <string name="search_hint">Cari event</string>
     <string name="event_content_desc">Gambar Acara</string>
     <string name="detail_event">Event Details</string>
+    <string name="favorite_button">favorite button</string>
 </resources>
