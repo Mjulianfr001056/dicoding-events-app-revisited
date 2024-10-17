@@ -12,10 +12,12 @@ import org.bangkit.dicodingevent.databinding.ItemEventBinding
 class DicodingEventAdapter(
     private val onClickItemListener : (DicodingEvent) -> Unit
 ) : ListAdapter<DicodingEvent, DicodingEventAdapter.MyViewHolder>(DIFF_CALLBACK) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = ItemEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val event = getItem(position)
         holder.bind(event, onClickItemListener)

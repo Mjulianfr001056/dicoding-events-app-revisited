@@ -1,5 +1,6 @@
 package org.bangkit.dicodingevent.data.retrofit
 
+import org.bangkit.dicodingevent.data.response.DetailDicodingEventResponse
 import org.bangkit.dicodingevent.data.response.DicodingEventResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -14,10 +15,10 @@ interface DicodingEventApi {
     @GET("events/{id}")
     suspend fun getDetailEvent(
         @Path("id") id: String
-    ): DicodingEventResponse
+    ): DetailDicodingEventResponse
 
     @GET("events")
-    fun searchEvents(
+    suspend fun searchEvents(
         @Query("active") active: Int,
         @Query("q") query: String
     ): DicodingEventResponse

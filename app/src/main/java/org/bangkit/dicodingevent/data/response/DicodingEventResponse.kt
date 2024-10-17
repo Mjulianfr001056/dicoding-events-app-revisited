@@ -17,6 +17,19 @@ data class DicodingEventResponse(
 )
 
 @Parcelize
+data class DetailDicodingEventResponse(
+
+	@field:SerializedName("error")
+	val error: Boolean? = null,
+
+	@field:SerializedName("message")
+	val message: String? = null,
+
+	@field:SerializedName("event")
+	val event: ListEventsItem
+) : Parcelable
+
+@Parcelize
 data class ListEventsItem(
 
 	@field:SerializedName("summary")

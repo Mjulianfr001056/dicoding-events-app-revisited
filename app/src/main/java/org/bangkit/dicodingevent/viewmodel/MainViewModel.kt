@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.bangkit.dicodingevent.data.response.DicodingEventResponse
 import org.bangkit.dicodingevent.data.response.ListEventsItem
-import org.bangkit.dicodingevent.data.retrofit.NetworkModule
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

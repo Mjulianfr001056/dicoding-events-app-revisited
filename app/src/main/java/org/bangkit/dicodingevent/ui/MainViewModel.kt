@@ -25,6 +25,9 @@ class MainViewModel @Inject constructor(
     private val _finishedEventList = MutableStateFlow<List<DicodingEvent>>(emptyList())
     val finishedEventList = _finishedEventList.asStateFlow()
 
+    private val _searchedEventList = MutableStateFlow<List<DicodingEvent>>(emptyList())
+    val searchedEventList = _searchedEventList.asStateFlow()
+
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
@@ -34,6 +37,18 @@ class MainViewModel @Inject constructor(
     init {
         Log.d(TAG, "MainViewModel: Initialized")
         fetchAllEvents()
+    }
+
+    suspend fun searchEvent(query: String) {
+        _isLoading.value = true
+        repository.searchEvent(query).collectLatest { result ->
+            when (result) {
+                is Result.Error -> handleError(result.message)
+                is Result.Success -> handleSuccess(result.data, _searchedEventList)
+            }
+        }
+        Log.d(TAG, "_searchedEventList: ${_searchedEventList.value.size}")
+        _isLoading.value = false
     }
 
     private fun fetchAllEvents() {

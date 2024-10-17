@@ -27,17 +27,42 @@ class DicodingEventRepositoryImpl @Inject constructor(
                 emit(Result.Success(listEvents))
             }.onFailure { e ->
                 Log.d(TAG, "getEvents: ${e.message}")
-                emit(Result.Error(message = e.message ?: "Unknown error occurred"))
+                emit(Result.Error(message = e.message ?: "Terjadi kesalahan"))
             }
         }
     }
 
     override suspend fun getEventDetail(eventId: Int): Result<DicodingEvent> {
-        TODO("Not yet implemented")
+        return try {
+            val response = api.getDetailEvent(eventId.toString())
+            val event = DicodingEventResponseMapper.mapResponseToEntity(response.event)
+            Result.Success(event)
+        } catch (e: Exception) {
+            Log.d(TAG, "getEventDetail: ${e.message}")
+            Result.Error(message = e.message ?: "Terjadi kesalahan")
+        }
     }
 
-    override suspend fun searchEvent(query: String): Result<List<DicodingEvent>> {
-        TODO("Not yet implemented")
+    override suspend fun searchEvent(query: String): Flow<Result<List<DicodingEvent>>> {
+        val isActive = -1
+
+        return flow {
+            val result = runCatching {
+                api.searchEvents(isActive, query)
+            }
+
+            result.onSuccess { response ->
+                val listEvents = response.listEvents.map {
+                    DicodingEventResponseMapper.mapResponseToEntity(it)
+                }
+                Log.d(TAG, "searchEvent: ${listEvents.size}")
+                emit(Result.Success(listEvents))
+            }.onFailure { e ->
+                Log.d(TAG, "searchEvent: ${e.message}")
+                emit(Result.Error(message = e.message ?: "Terjadi kesalahan"))
+            }
+        }
+
     }
 
     companion object {
