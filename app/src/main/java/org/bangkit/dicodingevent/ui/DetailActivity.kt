@@ -10,9 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.bangkit.dicodingevent.R
 import org.bangkit.dicodingevent.data.model.DicodingEventModel
 import org.bangkit.dicodingevent.databinding.ActivityDetailBinding
 import org.bangkit.dicodingevent.ui.viewmodels.DetailActivityViewModel
@@ -46,6 +48,10 @@ class DetailActivity : AppCompatActivity() {
 
         viewModel.setEvent(eventId)
 
+        binding.cvFavorite.setOnClickListener {
+            viewModel.toggleFavorite()
+        }
+
         lifecycleScope.launch {
             viewModel.event.collectLatest { event ->
                 setupView( event )
@@ -57,6 +63,22 @@ class DetailActivity : AppCompatActivity() {
                 showLoading(isLoading, binding)
             }
         }
+
+        lifecycleScope.launch {
+            viewModel.isFavorite.collectLatest { isFavorite ->
+                binding.ivFavorite.setImageResource(
+                    if (isFavorite) R.drawable.ic_filled_favorite
+                    else R.drawable.ic_outlined_favorite
+                )
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.messages.collectLatest { message ->
+                showSnackBar(message, binding.root)
+            }
+        }
+
     }
 
     private fun setupView(event : DicodingEventModel) {
@@ -88,6 +110,10 @@ class DetailActivity : AppCompatActivity() {
 
     private fun showLoading(isLoading: Boolean, binding: ActivityDetailBinding) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun showSnackBar(message: String, view: View) {
+        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

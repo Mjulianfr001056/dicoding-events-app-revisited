@@ -63,7 +63,48 @@ class DicodingEventRepositoryImpl @Inject constructor(
                 emit(Result.Error(message = e.message ?: "Terjadi kesalahan"))
             }
         }
+    }
 
+    override suspend fun addFavorite(event: DicodingEventModel): Flow<Result<Boolean>> {
+        val eventEntity = event.toEntity()
+        return flow {
+            try {
+                dao.addFavoriteEvent(eventEntity)
+                emit(Result.Success(true))
+            } catch (e: Exception) {
+                Log.d(TAG, "addFavorite: ${e.message}")
+                emit(Result.Error(message = e.message ?: "Terjadi kesalahan"))
+            }
+        }
+    }
+
+    override suspend fun removeFavorite(event: DicodingEventModel): Flow<Result<Boolean>> {
+        val eventEntity = event.toEntity()
+        return flow {
+            try {
+                dao.deleteFavoriteEvent(eventEntity)
+                emit(Result.Success(true))
+            } catch (e: Exception) {
+                Log.d(TAG, "removeFavorite: ${e.message}")
+                emit(Result.Error(message = e.message ?: "Terjadi kesalahan"))
+            }
+        }
+    }
+
+    override suspend fun findFavorite(eventId: Int): Result<DicodingEventModel> {
+        return try {
+            val eventEntity = dao.findFavoriteEvent(eventId)
+            val event = eventEntity?.toModel()
+
+            if (event != null) {
+                Result.Success(event)
+            } else {
+                Result.Error(message = "Event tidak ditemukan")
+            }
+        } catch (e: Exception) {
+            Log.d(TAG, "findFavorite: ${e.message}")
+            Result.Error(message = e.message ?: "Terjadi kesalahan")
+        }
     }
 
     companion object {

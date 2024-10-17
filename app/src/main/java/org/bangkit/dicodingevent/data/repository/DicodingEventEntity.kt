@@ -3,6 +3,7 @@ package org.bangkit.dicodingevent.data.repository
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import org.bangkit.dicodingevent.data.model.DicodingEventModel
 
 @Entity(tableName = "dicoding_event")
 data class DicodingEventEntity(
@@ -15,4 +16,10 @@ data class DicodingEventEntity(
 
     @ColumnInfo(name = "created_at")
     val createdAt: Long = System.currentTimeMillis()
-)
+) {
+    fun toModel() = DicodingEventModel(
+        id = id,
+        name = name,
+        mediaCover = mediaCover
+    )
+}

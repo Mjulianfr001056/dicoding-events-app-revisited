@@ -9,11 +9,14 @@ import androidx.room.Query
 @Dao
 interface DicodingEventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertDicodingEvent(dicodingEventEntity: DicodingEventEntity)
+    suspend fun addFavoriteEvent(dicodingEventEntity: DicodingEventEntity)
 
     @Query("SELECT * FROM dicoding_event ORDER BY created_at ASC")
-    suspend fun getAllDicodingEvent(): List<DicodingEventEntity>
+    suspend fun getAllFavoriteEvents(): List<DicodingEventEntity>
 
     @Delete
-    suspend fun deleteDicodingEvent(dicodingEventEntity: DicodingEventEntity)
+    suspend fun deleteFavoriteEvent(dicodingEventEntity: DicodingEventEntity)
+
+    @Query("SELECT * FROM dicoding_event WHERE id = :eventId LIMIT 1")
+    suspend fun findFavoriteEvent(eventId: Int): DicodingEventEntity?
 }
