@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.bangkit.dicodingevent.data.repository.DicodingEvent
+import org.bangkit.dicodingevent.data.model.DicodingEventModel
 import org.bangkit.dicodingevent.databinding.ActivityDetailBinding
 import org.bangkit.dicodingevent.ui.viewmodels.DetailActivityViewModel
 
@@ -48,9 +48,7 @@ class DetailActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             viewModel.event.collectLatest { event ->
-                event?.let {
-                    setupView( event )
-                }
+                setupView( event )
             }
         }
 
@@ -61,7 +59,7 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupView(event : DicodingEvent) {
+    private fun setupView(event : DicodingEventModel) {
         binding.toolbar.title = event.name
 
         binding.tvName.text = event.name

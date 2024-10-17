@@ -1,76 +1,49 @@
 package org.bangkit.dicodingevent.data.response
 
-import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import org.bangkit.dicodingevent.data.model.DicodingEventModel
 
 data class DicodingEventResponse(
-
-	@field:SerializedName("listEvents")
-	val listEvents: List<ListEventsItem> = listOf(),
-
-	@field:SerializedName("error")
 	val error: Boolean? = null,
-
-	@field:SerializedName("message")
-	val message: String? = null
+	val message: String? = null,
+	val listEvents: List<DicodingEventDto> = listOf()
 )
 
-@Parcelize
 data class DetailDicodingEventResponse(
-
-	@field:SerializedName("error")
 	val error: Boolean? = null,
-
-	@field:SerializedName("message")
 	val message: String? = null,
+	val event: DicodingEventDto
+)
 
-	@field:SerializedName("event")
-	val event: ListEventsItem
-) : Parcelable
-
-@Parcelize
-data class ListEventsItem(
-
-	@field:SerializedName("summary")
+data class DicodingEventDto(
 	val summary: String? = null,
-
-	@field:SerializedName("mediaCover")
 	val mediaCover: String? = null,
-
-	@field:SerializedName("registrants")
 	val registrants: Int? = null,
-
-	@field:SerializedName("imageLogo")
 	val imageLogo: String? = null,
-
-	@field:SerializedName("link")
 	val link: String? = null,
-
-	@field:SerializedName("description")
 	val description: String? = null,
-
-	@field:SerializedName("ownerName")
 	val ownerName: String? = null,
-
-	@field:SerializedName("cityName")
 	val cityName: String? = null,
-
-	@field:SerializedName("quota")
 	val quota: Int? = null,
-
-	@field:SerializedName("name")
 	val name: String? = null,
-
-	@field:SerializedName("id")
 	val id: Int? = null,
-
-	@field:SerializedName("beginTime")
 	val beginTime: String? = null,
-
-	@field:SerializedName("endTime")
 	val endTime: String? = null,
-
-	@field:SerializedName("category")
 	val category: String? = null
-) : Parcelable
+) {
+	fun toModel() = DicodingEventModel(
+		summary = summary,
+		mediaCover = mediaCover,
+		registrants = registrants,
+		imageLogo = imageLogo,
+		link = link,
+		description = description,
+		ownerName = ownerName,
+		cityName = cityName,
+		quota = quota,
+		name = name,
+		id = id,
+		beginTime = beginTime,
+		endTime = endTime,
+		category = category
+	)
+}

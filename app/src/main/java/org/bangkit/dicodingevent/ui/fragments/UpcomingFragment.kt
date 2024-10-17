@@ -1,5 +1,6 @@
 package org.bangkit.dicodingevent.ui.fragments
 
+//import org.bangkit.dicodingevent.data.response.DicodingEvent
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -16,8 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.bangkit.dicodingevent.R
-import org.bangkit.dicodingevent.data.repository.DicodingEvent
-//import org.bangkit.dicodingevent.data.response.DicodingEvent
+import org.bangkit.dicodingevent.data.model.DicodingEventModel
 import org.bangkit.dicodingevent.databinding.FragmentUpcomingBinding
 import org.bangkit.dicodingevent.ui.DetailActivity
 import org.bangkit.dicodingevent.ui.DicodingEventAdapter
@@ -117,7 +117,7 @@ class UpcomingFragment : Fragment() {
         }
     }
 
-    private fun setEventList(eventList : List<DicodingEvent>, adapter: DicodingEventAdapter) {
+    private fun setEventList(eventList : List<DicodingEventModel>, adapter: DicodingEventAdapter) {
         adapter.submitList(eventList)
     }
 

@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import org.bangkit.dicodingevent.data.model.DicodingEventModel
 import org.bangkit.dicodingevent.data.repository.DicodingEventRepository
-import org.bangkit.dicodingevent.data.repository.DicodingEvent
 import org.bangkit.dicodingevent.util.Result
 import java.io.IOException
 import javax.inject.Inject
@@ -20,13 +20,13 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val repository: DicodingEventRepository
 ) : ViewModel() {
-    private val _upcomingEventList = MutableStateFlow<List<DicodingEvent>>(emptyList())
+    private val _upcomingEventList = MutableStateFlow<List<DicodingEventModel>>(emptyList())
     val upcomingEventList = _upcomingEventList.asStateFlow()
 
-    private val _finishedEventList = MutableStateFlow<List<DicodingEvent>>(emptyList())
+    private val _finishedEventList = MutableStateFlow<List<DicodingEventModel>>(emptyList())
     val finishedEventList = _finishedEventList.asStateFlow()
 
-    private val _searchedEventList = MutableStateFlow<List<DicodingEvent>>(emptyList())
+    private val _searchedEventList = MutableStateFlow<List<DicodingEventModel>>(emptyList())
     val searchedEventList = _searchedEventList.asStateFlow()
 
     private val _isLoading = MutableStateFlow(false)
@@ -96,7 +96,7 @@ class MainViewModel @Inject constructor(
         _errorChannel.send(error)
     }
 
-    private fun handleSuccess(data: List<DicodingEvent>?, targetFlow: MutableStateFlow<List<DicodingEvent>>) {
+    private fun handleSuccess(data: List<DicodingEventModel>?, targetFlow: MutableStateFlow<List<DicodingEventModel>>) {
         if (data.isNullOrEmpty()) {
             Log.d(TAG, "Data null atau kosong")
         } else {

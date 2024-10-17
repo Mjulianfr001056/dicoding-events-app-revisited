@@ -15,7 +15,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.bangkit.dicodingevent.R
-import org.bangkit.dicodingevent.data.repository.DicodingEvent
+import org.bangkit.dicodingevent.data.model.DicodingEventModel
+import org.bangkit.dicodingevent.data.repository.DicodingEventEntity
 import org.bangkit.dicodingevent.databinding.FragmentHomeBinding
 import org.bangkit.dicodingevent.ui.DetailActivity
 import org.bangkit.dicodingevent.ui.DicodingEventAdapter
@@ -86,11 +87,11 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setUpcomingEventList(eventList : List<DicodingEvent>, adapter: DicodingHomeEventAdapter) {
+    private fun setUpcomingEventList(eventList : List<DicodingEventModel>, adapter: DicodingHomeEventAdapter) {
         adapter.submitList(eventList)
     }
 
-    private fun setFinishedEventList(eventList : List<DicodingEvent>, adapter: DicodingEventAdapter) {
+    private fun setFinishedEventList(eventList : List<DicodingEventModel>, adapter: DicodingEventAdapter) {
         adapter.submitList(eventList)
     }
 

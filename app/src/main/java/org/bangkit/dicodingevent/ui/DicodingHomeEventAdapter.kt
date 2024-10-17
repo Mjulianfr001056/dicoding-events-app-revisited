@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import org.bangkit.dicodingevent.data.repository.DicodingEvent
+import org.bangkit.dicodingevent.data.model.DicodingEventModel
 import org.bangkit.dicodingevent.databinding.ItemEventHorizontalBinding
 
 
 class DicodingHomeEventAdapter(
-    private val onClickItemListener : (DicodingEvent) -> Unit
-) : ListAdapter<DicodingEvent, DicodingHomeEventAdapter.MyViewHolder>(DIFF_CALLBACK) {
+    private val onClickItemListener : (DicodingEventModel) -> Unit
+) : ListAdapter<DicodingEventModel, DicodingHomeEventAdapter.MyViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = ItemEventHorizontalBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
@@ -23,7 +23,7 @@ class DicodingHomeEventAdapter(
     }
 
     class MyViewHolder(private val binding: ItemEventHorizontalBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(event: DicodingEvent, onItemClickListener: (DicodingEvent) -> Unit) {
+        fun bind(event: DicodingEventModel, onItemClickListener: (DicodingEventModel) -> Unit) {
             Glide.with(itemView.context)
                 .load(event.imageLogo)
                 .into(binding.ivEventPicture)
@@ -36,11 +36,11 @@ class DicodingHomeEventAdapter(
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DicodingEvent>() {
-            override fun areItemsTheSame(oldItem: DicodingEvent, newItem: DicodingEvent): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DicodingEventModel>() {
+            override fun areItemsTheSame(oldItem: DicodingEventModel, newItem: DicodingEventModel): Boolean {
                 return oldItem == newItem
             }
-            override fun areContentsTheSame(oldItem: DicodingEvent, newItem: DicodingEvent): Boolean {
+            override fun areContentsTheSame(oldItem: DicodingEventModel, newItem: DicodingEventModel): Boolean {
                 return oldItem == newItem
             }
         }
