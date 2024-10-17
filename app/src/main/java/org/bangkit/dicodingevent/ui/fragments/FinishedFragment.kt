@@ -20,7 +20,7 @@ import org.bangkit.dicodingevent.data.repository.DicodingEvent
 import org.bangkit.dicodingevent.databinding.FragmentFinishedBinding
 import org.bangkit.dicodingevent.ui.DetailActivity
 import org.bangkit.dicodingevent.ui.DicodingEventAdapter
-import org.bangkit.dicodingevent.ui.MainViewModel
+import org.bangkit.dicodingevent.ui.viewmodels.MainViewModel
 
 class FinishedFragment : Fragment() {
 
@@ -40,7 +40,7 @@ class FinishedFragment : Fragment() {
         binding.rvEvent.layoutManager = LinearLayoutManager(requireActivity())
         val adapter = DicodingEventAdapter { dicodingEvent ->
             val intent = Intent(requireActivity(), DetailActivity::class.java)
-            intent.putExtra(DetailActivity.EXTRA_EVENT, dicodingEvent)
+            intent.putExtra(DetailActivity.EXTRA_EVENT, dicodingEvent.id)
             startActivity(intent)
         }
         binding.rvEvent.adapter = adapter
@@ -48,7 +48,7 @@ class FinishedFragment : Fragment() {
         binding.rvSearchResults.layoutManager = LinearLayoutManager(requireActivity())
         val searchAdapter = DicodingEventAdapter { dicodingEvent ->
             val intent = Intent(requireActivity(), DetailActivity::class.java)
-            intent.putExtra(DetailActivity.EXTRA_EVENT, dicodingEvent)
+            intent.putExtra(DetailActivity.EXTRA_EVENT, dicodingEvent.id)
             startActivity(intent)
         }
         binding.rvSearchResults.adapter = searchAdapter
@@ -60,9 +60,7 @@ class FinishedFragment : Fragment() {
                 .setOnEditorActionListener { textView, _, _ ->
                     searchBar.setText(searchView.text)
                     searchView.hide()
-                    lifecycleScope.launch {
-                        viewModel.searchEvent(textView.text.toString())
-                    }
+                    viewModel.searchEvent(textView.text.toString())
                     false
                 }
         }

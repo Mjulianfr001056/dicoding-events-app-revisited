@@ -1,4 +1,4 @@
-package org.bangkit.dicodingevent.ui
+package org.bangkit.dicodingevent.ui.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import org.bangkit.dicodingevent.data.repository.DicodingEventRepository
 import org.bangkit.dicodingevent.data.repository.DicodingEvent
 import org.bangkit.dicodingevent.util.Result
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,15 +40,17 @@ class MainViewModel @Inject constructor(
         fetchAllEvents()
     }
 
-    suspend fun searchEvent(query: String) {
+    fun searchEvent(query: String) {
         _isLoading.value = true
-        repository.searchEvent(query).collectLatest { result ->
-            when (result) {
-                is Result.Error -> handleError(result.message)
-                is Result.Success -> handleSuccess(result.data, _searchedEventList)
+        viewModelScope.launch {
+            repository.searchEvent(query).collectLatest { result ->
+                when (result) {
+                    is Result.Error -> handleError(result.message)
+                    is Result.Success -> handleSuccess(result.data, _searchedEventList)
+                }
             }
+            Log.d(TAG, "_searchedEventList: ${_searchedEventList.value.size}")
         }
-        Log.d(TAG, "_searchedEventList: ${_searchedEventList.value.size}")
         _isLoading.value = false
     }
 
@@ -57,6 +60,9 @@ class MainViewModel @Inject constructor(
             try {
                 fetchUpcomingEvents()
                 fetchFinishedEvents()
+            } catch (e: IOException) {
+                Log.e(TAG, "Network error: ${e.message}")
+                _errorChannel.send("Network error: ${e.message}")
             } catch (e: Exception) {
                 Log.e(TAG, "Gagal mendapatkan data: ${e.message}")
                 _errorChannel.send("Gagal mendapatkan data: ${e.message}")

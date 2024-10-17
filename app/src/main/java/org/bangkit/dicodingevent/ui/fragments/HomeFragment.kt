@@ -20,7 +20,7 @@ import org.bangkit.dicodingevent.databinding.FragmentHomeBinding
 import org.bangkit.dicodingevent.ui.DetailActivity
 import org.bangkit.dicodingevent.ui.DicodingEventAdapter
 import org.bangkit.dicodingevent.ui.DicodingHomeEventAdapter
-import org.bangkit.dicodingevent.ui.MainViewModel
+import org.bangkit.dicodingevent.ui.viewmodels.MainViewModel
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -42,7 +42,7 @@ class HomeFragment : Fragment() {
 
         val upcomingEventAdapter = DicodingHomeEventAdapter { dicodingEvent ->
             val intent = Intent(requireActivity(), DetailActivity::class.java)
-            intent.putExtra(DetailActivity.EXTRA_EVENT, dicodingEvent)
+            intent.putExtra(DetailActivity.EXTRA_EVENT, dicodingEvent.id)
             startActivity(intent)
         }
 
@@ -52,7 +52,7 @@ class HomeFragment : Fragment() {
 
         val finishedEventAdapter = DicodingEventAdapter { dicodingEvent ->
             val intent = Intent(requireActivity(), DetailActivity::class.java)
-            intent.putExtra(DetailActivity.EXTRA_EVENT, dicodingEvent)
+            intent.putExtra(DetailActivity.EXTRA_EVENT, dicodingEvent.id)
             startActivity(intent)
         }
 
