@@ -6,8 +6,9 @@ import kotlinx.coroutines.flow.flow
 import org.bangkit.dicodingevent.data.response.DicodingEventResponseMapper
 import org.bangkit.dicodingevent.data.retrofit.DicodingEventApi
 import org.bangkit.dicodingevent.util.Result
+import javax.inject.Inject
 
-class DicodingEventRepositoryImpl(
+class DicodingEventRepositoryImpl @Inject constructor(
     private val dao : DicodingEventDao,
     private val api : DicodingEventApi
 ) : DicodingEventRepository {

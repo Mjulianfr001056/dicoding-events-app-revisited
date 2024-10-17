@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.bangkit.dicodingevent.data.repository.DicodingEventRepository
 import org.bangkit.dicodingevent.data.repository.DicodingEvent
@@ -26,56 +28,62 @@ class MainViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
-    companion object {
-        private const val TAG = "MainViewModel"
-    }
+    private val _errorChannel = Channel<String>()
+    val errorMessages = _errorChannel.receiveAsFlow()
 
     init {
         Log.d(TAG, "MainViewModel: Initialized")
-        getEvents()
+        fetchAllEvents()
     }
 
-    private fun getEvents() {
+    private fun fetchAllEvents() {
         viewModelScope.launch {
             _isLoading.value = true
-            repository.getEvents(isActive = true).collectLatest { result ->
-                when (result) {
-                    is Result.Error -> {
-                        result.message?.let {
-                            Log.d(TAG, "Error: $it")
-                        }
-                    }
-                    is Result.Success -> {
-                        if(result.data == null) {
-                            Log.d(TAG, "Data is null")
-                        } else {
-                            if (result.data.isNotEmpty()) {
-                                _upcomingEventList.value = result.data
-                            }
-                        }
-                    }
-                }
-            }
-
-            repository.getEvents(isActive = false).collectLatest { result ->
+            try {
+                fetchUpcomingEvents()
+                fetchFinishedEvents()
+            } catch (e: Exception) {
+                Log.e(TAG, "Gagal mendapatkan data: ${e.message}")
+                _errorChannel.send("Gagal mendapatkan data: ${e.message}")
+            } finally {
                 _isLoading.value = false
-                when (result) {
-                    is Result.Error -> {
-                        result.message?.let {
-                            Log.d(TAG, "Error: $it")
-                        }
-                    }
-                    is Result.Success -> {
-                        if(result.data == null) {
-                            Log.d(TAG, "Data is null")
-                        } else {
-                            if (result.data.isNotEmpty()) {
-                                _finishedEventList.value = result.data
-                            }
-                        }
-                    }
-                }
             }
         }
+    }
+
+    private suspend fun fetchUpcomingEvents() {
+        repository.getEvents(isActive = true).collectLatest { result ->
+            when (result) {
+                is Result.Error -> handleError(result.message)
+                is Result.Success -> handleSuccess(result.data, _upcomingEventList)
+            }
+        }
+    }
+
+    private suspend fun fetchFinishedEvents() {
+        repository.getEvents(isActive = false).collectLatest { result ->
+            when (result) {
+                is Result.Error -> handleError(result.message)
+                is Result.Success -> handleSuccess(result.data, _finishedEventList)
+            }
+        }
+    }
+
+    private suspend fun handleError(errorMessage: String?) {
+        val error = errorMessage ?: "Terjadi kesalahan"
+        Log.e(TAG, "Error: $error")
+        _errorChannel.send(error)
+    }
+
+    private fun handleSuccess(data: List<DicodingEvent>?, targetFlow: MutableStateFlow<List<DicodingEvent>>) {
+        if (data.isNullOrEmpty()) {
+            Log.d(TAG, "Data null atau kosong")
+        } else {
+            targetFlow.value = data
+        }
+    }
+
+    companion object {
+        private const val TAG = "MainViewModel"
     }
 }

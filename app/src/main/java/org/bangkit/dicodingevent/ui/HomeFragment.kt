@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -73,6 +74,12 @@ class HomeFragment : Fragment() {
                 Log.d("HomeFragment", "Loading state: $isLoading")
             }
         }
+
+        lifecycleScope.launch {
+            viewModel.errorMessages.collectLatest { errorMessage ->
+                showErrorSnackbar(errorMessage, binding.root)
+            }
+        }
     }
 
     private fun setUpcomingEventList(eventList : List<DicodingEvent>, adapter: DicodingHomeEventAdapter) {
@@ -85,5 +92,9 @@ class HomeFragment : Fragment() {
 
     private fun showLoading(isLoading: Boolean, binding: FragmentHomeBinding) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun showErrorSnackbar(message: String, view: View) {
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
     }
 }

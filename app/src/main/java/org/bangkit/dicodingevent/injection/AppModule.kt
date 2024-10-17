@@ -81,12 +81,6 @@ class AppModule {
         return database.dicodingEventDao
     }
 
-    @Provides
-    @Singleton
-    fun provideRepository(api: DicodingEventApi, dao: DicodingEventDao): DicodingEventRepository {
-        return DicodingEventRepositoryImpl(dao, api)
-    }
-
     companion object {
         private const val TAG = "AppModule"
     }
