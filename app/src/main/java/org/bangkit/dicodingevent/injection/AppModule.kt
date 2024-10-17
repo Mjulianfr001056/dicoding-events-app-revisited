@@ -15,8 +15,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.bangkit.dicodingevent.BuildConfig
 import org.bangkit.dicodingevent.data.repository.DicodingEventDao
 import org.bangkit.dicodingevent.data.repository.DicodingEventDatabase
-import org.bangkit.dicodingevent.data.repository.DicodingEventRepository
-import org.bangkit.dicodingevent.data.repository.DicodingEventRepositoryImpl
 import org.bangkit.dicodingevent.data.retrofit.DicodingEventApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

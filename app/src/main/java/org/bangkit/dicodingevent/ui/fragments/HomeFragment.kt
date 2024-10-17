@@ -1,4 +1,4 @@
-package org.bangkit.dicodingevent.ui
+package org.bangkit.dicodingevent.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -17,6 +17,10 @@ import kotlinx.coroutines.launch
 import org.bangkit.dicodingevent.R
 import org.bangkit.dicodingevent.data.repository.DicodingEvent
 import org.bangkit.dicodingevent.databinding.FragmentHomeBinding
+import org.bangkit.dicodingevent.ui.DetailActivity
+import org.bangkit.dicodingevent.ui.DicodingEventAdapter
+import org.bangkit.dicodingevent.ui.DicodingHomeEventAdapter
+import org.bangkit.dicodingevent.ui.MainViewModel
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {

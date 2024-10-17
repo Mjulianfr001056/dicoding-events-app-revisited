@@ -1,4 +1,4 @@
-package org.bangkit.dicodingevent.ui
+package org.bangkit.dicodingevent.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,11 +17,12 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.bangkit.dicodingevent.R
 import org.bangkit.dicodingevent.data.repository.DicodingEvent
-//import org.bangkit.dicodingevent.data.response.DicodingEvent
-import org.bangkit.dicodingevent.databinding.FragmentUpcomingBinding
-import org.bangkit.dicodingevent.ui.ui.upcoming.UpcomingViewModel
+import org.bangkit.dicodingevent.databinding.FragmentFinishedBinding
+import org.bangkit.dicodingevent.ui.DetailActivity
+import org.bangkit.dicodingevent.ui.DicodingEventAdapter
+import org.bangkit.dicodingevent.ui.MainViewModel
 
-class UpcomingFragment : Fragment() {
+class FinishedFragment : Fragment() {
 
     private val viewModel: MainViewModel by activityViewModels()
 
@@ -30,12 +30,12 @@ class UpcomingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_upcoming, container, false)
+        return inflater.inflate(R.layout.fragment_finished, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentUpcomingBinding.bind(view)
+        val binding = FragmentFinishedBinding.bind(view)
 
         binding.rvEvent.layoutManager = LinearLayoutManager(requireActivity())
         val adapter = DicodingEventAdapter { dicodingEvent ->
@@ -44,7 +44,6 @@ class UpcomingFragment : Fragment() {
             startActivity(intent)
         }
         binding.rvEvent.adapter = adapter
-
 
         binding.rvSearchResults.layoutManager = LinearLayoutManager(requireActivity())
         val searchAdapter = DicodingEventAdapter { dicodingEvent ->
@@ -68,7 +67,6 @@ class UpcomingFragment : Fragment() {
                 }
         }
 
-
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 binding.searchBar.clearText()
@@ -82,11 +80,10 @@ class UpcomingFragment : Fragment() {
             }
         })
 
-
         lifecycleScope.launch {
-            viewModel.upcomingEventList.collectLatest { eventList ->
+            viewModel.finishedEventList.collectLatest { eventList ->
                 setEventList(eventList, adapter)
-                Log.d(TAG, "Fetched upcoming events: ${eventList.size}")
+                Log.d(TAG, "Fetched finished events: ${eventList.size}")
             }
         }
 
@@ -126,11 +123,11 @@ class UpcomingFragment : Fragment() {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
     }
 
-    private fun showLoading(isLoading: Boolean, binding: FragmentUpcomingBinding) {
+    private fun showLoading(isLoading: Boolean, binding: FragmentFinishedBinding) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     companion object {
-        private const val TAG = "UpcomingFragment"
+        const val TAG = "FinishedFragment"
     }
 }
