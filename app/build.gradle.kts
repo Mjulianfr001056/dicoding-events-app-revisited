@@ -1,4 +1,3 @@
-import com.android.build.api.variant.BuildConfigField
 import java.util.Properties
 
 plugins {
@@ -79,6 +78,7 @@ dependencies {
     // Hilt DI
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.fragment)
 
     // Room
     implementation(libs.androidx.room.runtime)
@@ -88,4 +88,9 @@ dependencies {
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
+}
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }

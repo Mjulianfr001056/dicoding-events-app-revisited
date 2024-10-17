@@ -1,30 +1,27 @@
 package org.bangkit.dicodingevent.ui
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.Lazy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.bangkit.dicodingevent.data.repository.DicodingEventRepository
-import org.bangkit.dicodingevent.data.response.DicodingEvent
-import org.bangkit.dicodingevent.data.response.DicodingEventResponse
-import org.bangkit.dicodingevent.data.response.ListEventsItem
-import org.bangkit.dicodingevent.data.retrofit.NetworkModule
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import org.bangkit.dicodingevent.data.repository.DicodingEvent
+import org.bangkit.dicodingevent.util.Result
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repository: Lazy<DicodingEventRepository>
+    private val repository: DicodingEventRepository
 ) : ViewModel() {
     private val _upcomingEventList = MutableStateFlow<List<DicodingEvent>>(emptyList())
     val upcomingEventList = _upcomingEventList.asStateFlow()
+
+    private val _finishedEventList = MutableStateFlow<List<DicodingEvent>>(emptyList())
+    val finishedEventList = _finishedEventList.asStateFlow()
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
@@ -34,33 +31,51 @@ class MainViewModel @Inject constructor(
     }
 
     init {
+        Log.d(TAG, "MainViewModel: Initialized")
         getEvents()
     }
 
     private fun getEvents() {
+        viewModelScope.launch {
+            _isLoading.value = true
+            repository.getEvents(isActive = true).collectLatest { result ->
+                when (result) {
+                    is Result.Error -> {
+                        result.message?.let {
+                            Log.d(TAG, "Error: $it")
+                        }
+                    }
+                    is Result.Success -> {
+                        if(result.data == null) {
+                            Log.d(TAG, "Data is null")
+                        } else {
+                            if (result.data.isNotEmpty()) {
+                                _upcomingEventList.value = result.data
+                            }
+                        }
+                    }
+                }
+            }
 
-
-//        val client = NetworkModule.getApiService().getEvents(0)
-//        client.enqueue(object : Callback<DicodingEventResponse> {
-//            override fun onResponse(
-//                call: Call<DicodingEventResponse>,
-//                response: Response<DicodingEventResponse>
-//            ) {
-//                _isLoading.value = false
-//                if (response.isSuccessful) {
-//                    val responseBody = response.body()
-//                    if (responseBody != null) {
-//                        _eventList.value = response.body()?.listEvents
-//                    }
-//                }else {
-//                    Log.d(TAG, "onResponse: ${response.message()}")
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<DicodingEventResponse>, t: Throwable) {
-//                _isLoading.value = false
-//                Log.e(TAG, "onFailure: ${t.message}")
-//            }
-//        })
+            repository.getEvents(isActive = false).collectLatest { result ->
+                _isLoading.value = false
+                when (result) {
+                    is Result.Error -> {
+                        result.message?.let {
+                            Log.d(TAG, "Error: $it")
+                        }
+                    }
+                    is Result.Success -> {
+                        if(result.data == null) {
+                            Log.d(TAG, "Data is null")
+                        } else {
+                            if (result.data.isNotEmpty()) {
+                                _finishedEventList.value = result.data
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

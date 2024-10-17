@@ -16,8 +16,6 @@ data class DicodingEventResponse(
 	val message: String? = null
 )
 
-typealias DicodingEvent = ListEventsItem
-
 @Parcelize
 data class ListEventsItem(
 

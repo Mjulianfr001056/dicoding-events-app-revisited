@@ -1,24 +1,27 @@
-package org.bangkit.dicodingevent.ui.ui.home
+package org.bangkit.dicodingevent.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.bangkit.dicodingevent.R
-import org.bangkit.dicodingevent.data.response.DicodingEvent
+import org.bangkit.dicodingevent.data.repository.DicodingEvent
 import org.bangkit.dicodingevent.databinding.FragmentHomeBinding
-import org.bangkit.dicodingevent.ui.DetailActivity
-import org.bangkit.dicodingevent.ui.DicodingEventAdapter
-import org.bangkit.dicodingevent.ui.DicodingHomeEventAdapter
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: MainViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,21 +53,24 @@ class HomeFragment : Fragment() {
 
         binding.finishedEventsRecycler.adapter = finishedEventAdapter
 
-        viewModel.upcomingEvents.observe(viewLifecycleOwner) { events ->
-            setUpcomingEventList(events, upcomingEventAdapter)
+        lifecycleScope.launch {
+            viewModel.upcomingEventList.collectLatest { eventList ->
+                setUpcomingEventList(eventList, upcomingEventAdapter)
+                Log.d("HomeFragment", "Fetched upcoming events: ${eventList.size}")
+            }
         }
 
-        viewModel.finishedEvents.observe(viewLifecycleOwner) { events ->
-            setFinishedEventList(events, finishedEventAdapter)
+        lifecycleScope.launch {
+            viewModel.finishedEventList.collectLatest { eventList ->
+                setFinishedEventList(eventList, finishedEventAdapter)
+                Log.d("HomeFragment", "Fetched finished events: ${eventList.size}")
+            }
         }
 
-        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            showLoading(isLoading, binding)
-        }
-
-        viewModel.errorMessage.observe(viewLifecycleOwner) { message ->
-            message.getContentIfNotHandled()?.let {
-                Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            viewModel.isLoading.collectLatest { isLoading ->
+                showLoading(isLoading, binding)
+                Log.d("HomeFragment", "Loading state: $isLoading")
             }
         }
     }

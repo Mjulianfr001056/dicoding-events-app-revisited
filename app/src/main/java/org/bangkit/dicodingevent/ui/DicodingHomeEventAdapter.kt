@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import org.bangkit.dicodingevent.data.response.DicodingEvent
+import org.bangkit.dicodingevent.data.repository.DicodingEvent
 import org.bangkit.dicodingevent.databinding.ItemEventHorizontalBinding
 
 
