@@ -7,7 +7,7 @@
     android:layout_margin="8dp"
     android:elevation="4dp"
     app:cardCornerRadius="12dp"
-    app:cardBackgroundColor="@android:color/white"
+    app:cardBackgroundColor="@color/cardColor"
     app:cardUseCompatPadding="true">
 
     <LinearLayout
@@ -30,6 +30,7 @@
             android:textAlignment="viewStart"
             android:textSize="16sp"
             android:padding="16dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/textColor" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
