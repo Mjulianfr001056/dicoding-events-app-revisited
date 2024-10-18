@@ -12,13 +12,15 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.bangkit.dicodingevent.data.model.DicodingEventModel
 import org.bangkit.dicodingevent.data.repository.DicodingEventRepository
+import org.bangkit.dicodingevent.settings.SettingPreferences
 import org.bangkit.dicodingevent.util.Result
 import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repository: DicodingEventRepository
+    private val repository: DicodingEventRepository,
+    private val settingsPreference: SettingPreferences
 ) : ViewModel() {
     private val _upcomingEventList = MutableStateFlow<List<DicodingEventModel>>(emptyList())
     val upcomingEventList = _upcomingEventList.asStateFlow()
@@ -43,6 +45,14 @@ class MainViewModel @Inject constructor(
         fetchAllEvents()
     }
 
+    fun getThemeSettings() = settingsPreference.getThemeSetting()
+
+    fun saveThemeSetting(isDarkModeActive: Boolean) {
+        viewModelScope.launch {
+            settingsPreference.saveThemeSetting(isDarkModeActive)
+        }
+    }
+
     fun searchEvent(query: String) {
         _isLoading.value = true
         viewModelScope.launch {
@@ -55,6 +65,12 @@ class MainViewModel @Inject constructor(
             Log.d(TAG, "_searchedEventList: ${_searchedEventList.value.size}")
         }
         _isLoading.value = false
+    }
+
+    fun checkForFavoriteEventsUpdate() {
+        viewModelScope.launch {
+            fetchFavoriteEvents()
+        }
     }
 
     private fun fetchAllEvents() {
@@ -100,12 +116,6 @@ class MainViewModel @Inject constructor(
                 is Result.Error -> handleError(result.message)
                 is Result.Success -> handleSuccess(result.data, _favoriteEventList)
             }
-        }
-    }
-
-    fun checkForFavoriteEventsUpdate() {
-        viewModelScope.launch {
-            fetchFavoriteEvents()
         }
     }
 

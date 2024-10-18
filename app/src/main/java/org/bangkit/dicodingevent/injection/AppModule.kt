@@ -2,6 +2,9 @@ package org.bangkit.dicodingevent.injection
 
 import android.content.Context
 import android.util.Log
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -16,6 +19,7 @@ import org.bangkit.dicodingevent.BuildConfig
 import org.bangkit.dicodingevent.data.repository.DicodingEventDao
 import org.bangkit.dicodingevent.data.repository.DicodingEventDatabase
 import org.bangkit.dicodingevent.data.retrofit.DicodingEventApi
+import org.bangkit.dicodingevent.settings.SettingPreferences
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -23,6 +27,8 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
+
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
     @Provides
     @Singleton
@@ -77,6 +83,12 @@ class AppModule {
     @Singleton
     fun provideDao(database: DicodingEventDatabase) : DicodingEventDao {
         return database.dicodingEventDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideSettingsPreferences(@ApplicationContext context: Context) : SettingPreferences {
+        return SettingPreferences(context.dataStore)
     }
 
     companion object {

@@ -1,18 +1,25 @@
 package org.bangkit.dicodingevent.ui
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.bangkit.dicodingevent.R
 import org.bangkit.dicodingevent.databinding.ActivityMainBinding
+import org.bangkit.dicodingevent.ui.viewmodels.MainViewModel
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,5 +32,17 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         navView.setupWithNavController(navController)
+
+        viewModel.saveThemeSetting(true)
+
+        lifecycleScope.launch {
+            viewModel.getThemeSettings().collectLatest { isDarkModeActive ->
+                if (isDarkModeActive) {
+                    delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_YES
+                } else {
+                    delegate.localNightMode = AppCompatDelegate.MODE_NIGHT_NO
+                }
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 [versions]
 agp = "8.7.1"
+datastorePreferences = "1.1.1"
 glide = "4.16.0"
 hiltAndroid = "2.52"
 hiltNavigationFragment = "1.2.0"
@@ -24,6 +25,7 @@ roomRuntime = "2.6.1"
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-hilt-navigation-fragment = { module = "androidx.hilt:hilt-navigation-fragment", version.ref = "hiltNavigationFragment" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
