@@ -60,6 +60,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.setBackgroundColor(resources.getColor(R.color.colorBase, null))
 
         workManager = WorkManager.getInstance(requireContext())
 

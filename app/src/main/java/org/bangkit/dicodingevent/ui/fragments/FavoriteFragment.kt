@@ -51,7 +51,6 @@ class FavoriteFragment : Fragment() {
         with(activity as MainActivity) {
             setSupportActionBar(binding.toolbar)
             supportActionBar?.title = getString(R.string.favorite_events_title)
-            binding.toolbar.setTitleTextColor(resources.getColor(android.R.color.white, null))
         }
 
         lifecycleScope.launch {
