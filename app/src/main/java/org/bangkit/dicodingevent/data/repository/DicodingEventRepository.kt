@@ -11,4 +11,5 @@ interface DicodingEventRepository {
     suspend fun addFavorite(event: DicodingEventModel) : Flow<Result<Boolean>>
     suspend fun removeFavorite(event: DicodingEventModel) : Flow<Result<Boolean>>
     suspend fun findFavorite(eventId: Int) : Result<DicodingEventModel>
+    suspend fun getAllFavoriteEvents() : Flow<Result<List<DicodingEventModel>>>
 }

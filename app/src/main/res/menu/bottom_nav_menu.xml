@@ -16,4 +16,9 @@
         android:icon="@drawable/baseline_done_all_24"
         android:title="@string/finished" />
 
+    <item
+        android:id="@+id/navigation_favorite"
+        android:icon="@drawable/ic_filled_favorite"
+        android:title="@string/favorite" />
+
 </menu>

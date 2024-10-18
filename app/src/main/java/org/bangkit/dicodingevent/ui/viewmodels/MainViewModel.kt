@@ -29,6 +29,9 @@ class MainViewModel @Inject constructor(
     private val _searchedEventList = MutableStateFlow<List<DicodingEventModel>>(emptyList())
     val searchedEventList = _searchedEventList.asStateFlow()
 
+    private val _favoriteEventList = MutableStateFlow<List<DicodingEventModel>>(emptyList())
+    val favoriteEventList = _favoriteEventList.asStateFlow()
+
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
@@ -60,6 +63,7 @@ class MainViewModel @Inject constructor(
             try {
                 fetchUpcomingEvents()
                 fetchFinishedEvents()
+                fetchFavoriteEvents()
             } catch (e: IOException) {
                 Log.e(TAG, "Network error: ${e.message}")
                 _errorChannel.send("Network error: ${e.message}")
@@ -90,6 +94,21 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    private suspend fun fetchFavoriteEvents() {
+        repository.getAllFavoriteEvents().collectLatest { result ->
+            when (result) {
+                is Result.Error -> handleError(result.message)
+                is Result.Success -> handleSuccess(result.data, _favoriteEventList)
+            }
+        }
+    }
+
+    fun checkForFavoriteEventsUpdate() {
+        viewModelScope.launch {
+            fetchFavoriteEvents()
+        }
+    }
+
     private suspend fun handleError(errorMessage: String?) {
         val error = errorMessage ?: "Terjadi kesalahan"
         Log.e(TAG, "Error: $error")
@@ -103,6 +122,7 @@ class MainViewModel @Inject constructor(
             targetFlow.value = data
         }
     }
+
 
     companion object {
         private const val TAG = "MainViewModel"

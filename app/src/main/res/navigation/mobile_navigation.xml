@@ -22,4 +22,10 @@
         android:name="org.bangkit.dicodingevent.ui.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_favorite"
+        android:name="org.bangkit.dicodingevent.ui.fragments.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" />
 </navigation>

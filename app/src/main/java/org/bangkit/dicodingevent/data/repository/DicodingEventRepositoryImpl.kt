@@ -107,6 +107,20 @@ class DicodingEventRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getAllFavoriteEvents(): Flow<Result<List<DicodingEventModel>>> {
+        return flow {
+            try {
+                val listEvents = dao.getAllFavoriteEvents().map {
+                    it.toModel()
+                }
+                emit(Result.Success(listEvents))
+            } catch (e: Exception) {
+                Log.d(TAG, "getAllFavoriteEvents: ${e.message}")
+                emit(Result.Error(message = e.message ?: "Terjadi kesalahan"))
+            }
+        }
+    }
+
     companion object {
         private const val TAG = "DicodingEventRepositoryImpl"
     }
