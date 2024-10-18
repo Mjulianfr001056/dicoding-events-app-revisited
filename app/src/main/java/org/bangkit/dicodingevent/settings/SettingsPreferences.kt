@@ -11,30 +11,24 @@ import javax.inject.Inject
 class SettingPreferences @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {
-    private val THEME_KEY = booleanPreferencesKey("theme_setting")
-    private val DAILY_REMINDER_KEY = booleanPreferencesKey("daily_reminder_setting")
+    private val themeKey = booleanPreferencesKey("theme_setting")
+    private val dailyReminderKey = booleanPreferencesKey("daily_reminder_setting")
 
     fun getThemeSetting(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
-            preferences[THEME_KEY] ?: false
+            preferences[themeKey] ?: false
         }
     }
 
     suspend fun saveThemeSetting(isDarkModeActive: Boolean) {
         dataStore.edit { preferences ->
-            preferences[THEME_KEY] = isDarkModeActive
-        }
-    }
-
-    fun getDailyReminderSetting(): Flow<Boolean> {
-        return dataStore.data.map { preferences ->
-            preferences[DAILY_REMINDER_KEY] ?: false
+            preferences[themeKey] = isDarkModeActive
         }
     }
 
     suspend fun saveDailyReminderSetting(isDailyReminderActive: Boolean) {
         dataStore.edit { preferences ->
-            preferences[DAILY_REMINDER_KEY] = isDailyReminderActive
+            preferences[dailyReminderKey] = isDailyReminderActive
         }
     }
 }

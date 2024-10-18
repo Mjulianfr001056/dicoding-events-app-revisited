@@ -11,7 +11,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
-import androidx.work.Worker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -28,7 +27,9 @@ class DailyReminderWorker @AssistedInject constructor (
     @Assisted workerParams: WorkerParameters
 ) : CoroutineWorker(context, workerParams) {
 
-    private val TAG = "DailyReminderWorker"
+    companion object {
+        private const val TAG = "DailyReminderWorker"
+    }
 
     init {
         Log.d(TAG, "worker: created")

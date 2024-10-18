@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.bangkit.dicodingevent.R
 import org.bangkit.dicodingevent.data.model.DicodingEventModel
-import org.bangkit.dicodingevent.data.repository.DicodingEventEntity
 import org.bangkit.dicodingevent.databinding.FragmentHomeBinding
 import org.bangkit.dicodingevent.ui.DetailActivity
 import org.bangkit.dicodingevent.ui.DicodingEventAdapter
