@@ -91,6 +91,10 @@ dependencies {
 
     // DataStore
     implementation(libs.androidx.datastore.preferences)
+
+    // Preferences
+    implementation(libs.androidx.preference)
+    implementation(libs.androidx.preference.ktx)
 }
 
 java {

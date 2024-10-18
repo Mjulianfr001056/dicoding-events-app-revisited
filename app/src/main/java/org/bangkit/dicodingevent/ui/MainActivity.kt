@@ -19,7 +19,7 @@ import org.bangkit.dicodingevent.ui.viewmodels.MainViewModel
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +32,6 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         navView.setupWithNavController(navController)
-
-        viewModel.saveThemeSetting(true)
 
         lifecycleScope.launch {
             viewModel.getThemeSettings().collectLatest { isDarkModeActive ->

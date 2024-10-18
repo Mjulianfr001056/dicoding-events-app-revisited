@@ -39,4 +39,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="favorite">Favorite</string>
     <string name="favorite_events_title">Favorite Events</string>
+
+    <string name="dark_mode">Dark mode</string>
+    <string name="turn_off_dark_mode">Turn off dark mode</string>
+    <string name="turn_on_dark_mode">Turn on dark mode</string>
+    <string name="settings">Settings</string>
 </resources>

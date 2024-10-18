@@ -28,4 +28,9 @@
         android:name="org.bangkit.dicodingevent.ui.fragments.FavoriteFragment"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="org.bangkit.dicodingevent.settings.SettingsFragment"
+        android:label="fragment_settings" />
 </navigation>
