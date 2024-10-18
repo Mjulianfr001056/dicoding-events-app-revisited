@@ -43,5 +43,10 @@
     <string name="dark_mode">Dark mode</string>
     <string name="turn_off_dark_mode">Turn off dark mode</string>
     <string name="turn_on_dark_mode">Turn on dark mode</string>
+
+    <string name="daily_reminder">Daily Reminder</string>
+    <string name="turn_off_daily_reminder">Turn off daily reminder</string>
+    <string name="turn_on_daily_reminder">Turn on daily reminder</string>
+
     <string name="settings">Settings</string>
 </resources>

@@ -8,5 +8,13 @@
             app:summaryOff="@string/turn_on_dark_mode"
             app:icon="@drawable/baseline_dark_mode_24"
             app:defaultValue="false" />
+
+        <SwitchPreferenceCompat
+            app:key="daily_reminder"
+            app:title="@string/daily_reminder"
+            app:summaryOn="@string/turn_off_daily_reminder"
+            app:summaryOff="@string/turn_on_daily_reminder"
+            app:icon="@drawable/baseline_circle_notifications_24"
+            app:defaultValue="false" />
     </PreferenceCategory>
 </PreferenceScreen>

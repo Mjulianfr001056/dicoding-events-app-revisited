@@ -22,4 +22,10 @@ interface DicodingEventApi {
         @Query("active") active: Int,
         @Query("q") query: String
     ): DicodingEventResponse
+
+    @GET("events")
+    suspend fun getClosestEvents(
+        @Query("active") active: Int = -1,
+        @Query("limit") limit: Int = 1
+    ): DicodingEventResponse
 }

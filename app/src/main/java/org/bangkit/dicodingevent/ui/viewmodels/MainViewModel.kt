@@ -53,6 +53,14 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun getDailyReminderSettings() = settingsPreference.getDailyReminderSetting()
+
+    fun saveDailyReminderSetting(isDailyReminderActive: Boolean) {
+        viewModelScope.launch {
+            settingsPreference.saveDailyReminderSetting(isDailyReminderActive)
+        }
+    }
+
     fun searchEvent(query: String) {
         _isLoading.value = true
         viewModelScope.launch {

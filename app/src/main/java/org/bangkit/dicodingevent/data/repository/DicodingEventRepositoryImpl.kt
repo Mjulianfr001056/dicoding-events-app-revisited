@@ -121,6 +121,18 @@ class DicodingEventRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getClosestEvent(): Result<DicodingEventModel> {
+        return try {
+            val eventEntity = api.getClosestEvents()
+            val event = eventEntity.listEvents.first().toModel()
+
+            Result.Success(event)
+        } catch (e: Exception) {
+            Log.d(TAG, "getClosestEvent: ${e.message}")
+            Result.Error(message = e.message ?: "Terjadi kesalahan")
+        }
+    }
+
     companion object {
         private const val TAG = "DicodingEventRepositoryImpl"
     }

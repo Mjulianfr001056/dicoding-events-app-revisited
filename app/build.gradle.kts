@@ -78,6 +78,8 @@ dependencies {
     // Hilt DI
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.common)
+    implementation(libs.androidx.hilt.work)
     implementation(libs.androidx.hilt.navigation.fragment)
 
     // Room
@@ -95,6 +97,9 @@ dependencies {
     // Preferences
     implementation(libs.androidx.preference)
     implementation(libs.androidx.preference.ktx)
+
+    // WorkManager
+    implementation(libs.androidx.work.runtime)
 }
 
 java {
