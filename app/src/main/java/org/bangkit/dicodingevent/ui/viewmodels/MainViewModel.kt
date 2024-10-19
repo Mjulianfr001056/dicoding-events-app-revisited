@@ -77,6 +77,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             fetchFavoriteEvents()
         }
+        Log.d(TAG, "checkForFavoriteEventsUpdate: ${favoriteEventList.value.size}")
     }
 
     private fun fetchAllEvents() {
@@ -132,11 +133,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun handleSuccess(data: List<DicodingEventModel>?, targetFlow: MutableStateFlow<List<DicodingEventModel>>) {
-        if (data.isNullOrEmpty()) {
-            Log.d(TAG, "Data null atau kosong")
-        } else {
-            targetFlow.value = data
-        }
+        targetFlow.value = data ?: emptyList()
     }
 
 
