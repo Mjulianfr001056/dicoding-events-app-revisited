@@ -1,4 +1,4 @@
-package org.bangkit.dicodingevent.ui
+package org.bangkit.dicodingevent.ui.activities
 
 import android.content.Intent
 import android.net.Uri
@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -20,7 +19,7 @@ import org.bangkit.dicodingevent.databinding.ActivityDetailBinding
 import org.bangkit.dicodingevent.ui.viewmodels.DetailActivityViewModel
 
 @AndroidEntryPoint
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : BaseActivity() {
 
     private lateinit var binding: ActivityDetailBinding
     private val viewModel: DetailActivityViewModel by viewModels()

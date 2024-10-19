@@ -18,7 +18,7 @@ import org.bangkit.dicodingevent.DicodingEventApp.Companion.CHANNEL_ID
 import org.bangkit.dicodingevent.R
 import org.bangkit.dicodingevent.data.model.DicodingEventModel
 import org.bangkit.dicodingevent.data.repository.DicodingEventRepository
-import org.bangkit.dicodingevent.ui.DetailActivity
+import org.bangkit.dicodingevent.ui.activities.DetailActivity
 
 @HiltWorker
 class DailyReminderWorker @AssistedInject constructor (

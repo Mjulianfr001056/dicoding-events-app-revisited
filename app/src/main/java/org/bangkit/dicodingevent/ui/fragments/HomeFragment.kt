@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import org.bangkit.dicodingevent.R
 import org.bangkit.dicodingevent.data.model.DicodingEventModel
 import org.bangkit.dicodingevent.databinding.FragmentHomeBinding
-import org.bangkit.dicodingevent.ui.DetailActivity
+import org.bangkit.dicodingevent.ui.activities.DetailActivity
 import org.bangkit.dicodingevent.ui.DicodingEventAdapter
 import org.bangkit.dicodingevent.ui.DicodingHomeEventAdapter
 import org.bangkit.dicodingevent.ui.viewmodels.MainViewModel

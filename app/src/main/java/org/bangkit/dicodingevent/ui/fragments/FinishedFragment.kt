@@ -10,7 +10,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
@@ -18,7 +17,7 @@ import kotlinx.coroutines.launch
 import org.bangkit.dicodingevent.R
 import org.bangkit.dicodingevent.data.model.DicodingEventModel
 import org.bangkit.dicodingevent.databinding.FragmentFinishedBinding
-import org.bangkit.dicodingevent.ui.DetailActivity
+import org.bangkit.dicodingevent.ui.activities.DetailActivity
 import org.bangkit.dicodingevent.ui.DicodingEventAdapter
 import org.bangkit.dicodingevent.ui.viewmodels.MainViewModel
 

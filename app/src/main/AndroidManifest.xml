@@ -17,10 +17,10 @@
         android:theme="@style/Theme.DicodingEvent"
         tools:targetApi="31">
         <activity
-            android:name=".ui.DetailActivity"
+            android:name=".ui.activities.DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:exported="true"
             android:label="@string/title_activity_bottom_nav">
             <intent-filter>
