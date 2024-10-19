@@ -25,6 +25,9 @@ import org.bangkit.dicodingevent.ui.viewmodels.MainViewModel
 class FinishedFragment : Fragment() {
 
     private val viewModel: MainViewModel by activityViewModels()
+    private val bottomNavigationView: View by lazy {
+        requireActivity().findViewById(R.id.nav_view)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,13 +71,7 @@ class FinishedFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 binding.searchBar.clearText()
-
-                if (binding.rvSearchResults.visibility == View.VISIBLE) {
-                    binding.rvSearchResults.visibility = View.GONE
-                    binding.rvEvent.visibility = View.VISIBLE
-                } else {
-                    findNavController().popBackStack()
-                }
+                viewModel.clearSearchResults()
             }
         })
 
@@ -98,9 +95,11 @@ class FinishedFragment : Fragment() {
                     binding.rvSearchResults.visibility = View.VISIBLE
                     binding.rvEvent.visibility = View.GONE
                     searchAdapter.submitList(filteredEvents)
+                    bottomNavigationView.visibility = View.GONE
                 } else {
                     binding.rvSearchResults.visibility = View.GONE
                     binding.rvEvent.visibility = View.VISIBLE
+                    bottomNavigationView.visibility = View.VISIBLE
                 }
                 Log.d(TAG, "Fetched searched events: ${filteredEvents.size}")
             }

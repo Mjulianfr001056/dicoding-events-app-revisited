@@ -73,6 +73,10 @@ class MainViewModel @Inject constructor(
         _isLoading.value = false
     }
 
+    fun clearSearchResults() {
+        _searchedEventList.value = emptyList()
+    }
+
     fun checkForFavoriteEventsUpdate() {
         viewModelScope.launch {
             fetchFavoriteEvents()
