@@ -36,9 +36,6 @@ class DetailActivity : BaseActivity() {
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding.toolbar.navigationIcon.let {
-            it?.setTint(resources.getColor(android.R.color.white, theme))
-        }
 
         eventId = intent.getIntExtra(EXTRA_EVENT, -1)
         if (eventId == -1) {
