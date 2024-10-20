@@ -55,8 +55,8 @@ class DetailActivityViewModel @Inject constructor(
                     }
                 }
             }
+            _isLoading.value = false
         }
-        _isLoading.value = false
     }
 
     private fun isEventAlreadyFavorite() {

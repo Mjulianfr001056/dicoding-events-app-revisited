@@ -60,8 +60,8 @@ class MainViewModel @Inject constructor(
     }
 
     fun searchEvent(query: String) {
-        _isLoading.value = true
         viewModelScope.launch {
+            _isLoading.value = true
             repository.searchEvent(query).collectLatest { result ->
                 when (result) {
                     is Result.Error -> handleError(result.message)
@@ -69,8 +69,8 @@ class MainViewModel @Inject constructor(
                 }
             }
             Log.d(TAG, "_searchedEventList: ${_searchedEventList.value.size}")
+            _isLoading.value = false
         }
-        _isLoading.value = false
     }
 
     fun clearSearchResults() {
